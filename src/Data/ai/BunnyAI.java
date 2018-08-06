@@ -1,4 +1,4 @@
 package Data.ai;
 
-public class BunnyAI {
+public class BunnyAI extends CommonAI {
 }

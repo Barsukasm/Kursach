@@ -1,4 +1,4 @@
 package Data.ai;
 
-public class WolfsAI {
+public class WolfsAI extends CommonAI {
 }

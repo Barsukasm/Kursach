@@ -2,9 +2,11 @@ package Data.model;
 
 public abstract class LiveBeing {
     private int x,y;
+    private boolean isAlive;
     public LiveBeing(int x, int y){
         this.x=x;
         this.y=y;
+        isAlive = true;
     }
 
     public LiveBeing(){
