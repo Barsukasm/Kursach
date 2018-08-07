@@ -1,6 +1,21 @@
 package Data.model;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
 public class Wolf extends LiveBeing {
+
+    private static Image img;
+
+    static {
+        try{
+        img = ImageIO.read(new File("images/Wolf2.png"));
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+    }
 
     private double hp;
     private boolean isMale;
@@ -103,5 +118,11 @@ public class Wolf extends LiveBeing {
                     break;
             }
         }
+    }
+
+
+    @Override
+    public void paint(Graphics g) {
+        g.drawImage(img,FaunaCollection.getInstance().map[getX()][getY()].x,FaunaCollection.getInstance().map[getX()][getY()].y,null);
     }
 }

@@ -9,7 +9,7 @@
     <clientProperties>
       <html.disable class="java.lang.Boolean" value="false"/>
     </clientProperties>
-    <border type="none" title="Wolfs island">
+    <border type="empty">
       <font/>
     </border>
     <children>
@@ -39,11 +39,12 @@
           </component>
         </children>
       </grid>
-      <grid id="b731b" binding="visualPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+      <grid id="b731b" binding="visualPanel" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="true">
             <minimum-size width="600" height="600"/>
             <preferred-size width="600" height="600"/>
+            <maximum-size width="600" height="600"/>
           </grid>
         </constraints>
         <properties/>

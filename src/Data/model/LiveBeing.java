@@ -1,5 +1,7 @@
 package Data.model;
 
+import java.awt.*;
+
 public abstract class LiveBeing {
     private int x,y;
     private boolean isAlive;
@@ -31,4 +33,6 @@ public abstract class LiveBeing {
     }
 
     public abstract void move();
+
+    public abstract void paint(Graphics g);
 }

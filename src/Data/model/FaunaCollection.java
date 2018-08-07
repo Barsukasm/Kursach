@@ -1,14 +1,22 @@
 package Data.model;
 
+import java.awt.*;
 import java.util.Vector;
 
 public class FaunaCollection {
     private static FaunaCollection instance;
 
     public Vector<LiveBeing> fauna;
+    public Point map[][];
 
     private FaunaCollection(){
         fauna = new Vector<>();
+        map = new Point[20][20];
+        for (int i=0; i<map.length;i++){
+            for (int j=0; j<map.length;j++){
+                map[i][j]= new Point(30*i,30*j);
+            }
+        }
     }
 
     public static FaunaCollection getInstance(){
