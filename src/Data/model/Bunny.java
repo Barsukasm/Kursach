@@ -35,9 +35,9 @@ public class Bunny extends LiveBeing {
     @Override
     public void move() {
         int r = (int)(Math.random()*9);
-        if(Math.random()<=0.2){
+        if(Math.random()<0.2){
             Bunny bunny = new Bunny(getX(),getY());
-            FaunaCollection.getInstance().fauna.add(bunny);
+            FaunaCollection.getInstance().addNewborns.add(bunny);
         }
         switch (r){
             case 0:

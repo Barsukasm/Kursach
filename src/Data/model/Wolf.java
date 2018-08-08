@@ -45,7 +45,6 @@ public class Wolf extends LiveBeing {
     @Override
     public void move() {
         hp-=0.1;
-        //FaunaCollection.getInstance().island[getX()][getY()]-=1;//Убираем волка со старых координат перед перемещением
         boolean stepIsDone = false;
         Bunny b=null;
         scycle:
@@ -74,8 +73,7 @@ public class Wolf extends LiveBeing {
                         boolean isMale = true;
                         if (Math.random()>0.5) isMale = false;
                         Wolf wolfy = new Wolf(getX(),getY(), isMale);
-                        //FaunaCollection.getInstance().island[getX()][getY()]+=1;
-                        FaunaCollection.getInstance().fauna.add(wolfy);
+                        FaunaCollection.getInstance().addNewborns.add(wolfy);
                         break fem;
                     }
                 }
@@ -140,7 +138,6 @@ public class Wolf extends LiveBeing {
                     break;
             }
         }
-        //FaunaCollection.getInstance().island[getX()][getY()]+=1;//Добавляем на новую клетку
     }
 
 

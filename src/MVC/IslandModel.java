@@ -4,6 +4,7 @@ import Data.ai.BunnyAI;
 import Data.ai.WolfsAI;
 import Data.model.Bunny;
 import Data.model.FaunaCollection;
+import Data.model.LiveBeing;
 import Data.model.Wolf;
 
 import java.util.Timer;
@@ -17,30 +18,25 @@ public class IslandModel {
     public BunnyAI bunnyAI;
     public WolfsAI wolfsAI;
     IslandView view;
-    private static int nWolfs=10;
-    private static int nBunnies=20;
+    private static int nWolfs=15;
+    private static int nBunnies=15;
 
     public IslandModel(IslandView view){
         this.view = view;
     }
 
     public void update(){
-       // synchronized (FaunaCollection.getInstance().fauna){
+        synchronized (FaunaCollection.getInstance().fauna){
+            FaunaCollection.getInstance().fauna.addAll(FaunaCollection.getInstance().addNewborns);
+            FaunaCollection.getInstance().addNewborns.clear();
             FaunaCollection.getInstance().checkAndClean();
-            /*for (int i=0; i<20;i++){ //Размножение перенесено в класс Wolf
-                for (int j=0; j<20;j++){
-                    if (FaunaCollection.getInstance().island[i][j]>1){
-                        FaunaCollection.getInstance().checkPairs(i,j);
-                    }
-                }
-            }*/
-       // }
+        }
     }
 
     private void spawnCreatures(){
        // synchronized (FaunaCollection.getInstance().fauna){
-            int numberOfWolfs=(int)(Math.random()*nWolfs);
-            int numberOfBunnies=(int)(Math.random()*nBunnies);
+            int numberOfWolfs=(int)(Math.random()*nWolfs+1);
+            int numberOfBunnies=(int)(Math.random()*nBunnies+1);
             for (int i=0;i<numberOfWolfs;i++){
                 boolean isMale=true;
                 if(Math.random()>0.5) isMale=false;
@@ -56,18 +52,18 @@ public class IslandModel {
 
     void startSimulation(){
         isRunning=true;
+        spawnCreatures();
         wolfsAI=new WolfsAI();
         wolfsAI.start();
         bunnyAI = new BunnyAI();
         bunnyAI.start();
-        spawnCreatures();
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 time++;
                 update();
-                view.startSimulation();
+                view.startSimulation(formMessage());
             }
         },0,1000);
     }
@@ -79,7 +75,24 @@ public class IslandModel {
         timer.purge();
         wolfsAI.running=false;
         bunnyAI.running=false;
-        view.stopSimulation();
+        FaunaCollection.getInstance().addNewborns.clear();
         FaunaCollection.getInstance().fauna.clear();
+        view.stopSimulation();
+    }
+
+    private String formMessage(){
+        int bunnies=0, wolfM=0, wolfF=0, wolfsT=0;
+        for (LiveBeing lb: FaunaCollection.getInstance().fauna){
+            if(lb instanceof Bunny) bunnies++;
+            if(lb instanceof Wolf){
+                wolfsT++;
+                Wolf wolf = (Wolf)lb;
+                if(wolf.isMale()){wolfM++;}else {wolfF++;}
+            }
+        }
+        return "Population of rabbits: "+bunnies+"\n"+
+                "Population of wolfs: "+wolfsT+"\n"+
+                "Number of males: "+wolfM+"\n"+
+                "Number of females: "+wolfF;
     }
 }

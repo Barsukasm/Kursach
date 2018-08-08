@@ -19,30 +19,36 @@ public class IslandView extends JFrame {
     JPanel menuPanel;
     JPanel visualPanel;
     JPanel mainPanel;
+    public JTextArea infographics;
     Image img;
 
     public IslandView(String s){
         super(s);
         setBounds(0,0,1000,900);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         try{
             img = ImageIO.read(new File("images/grassTile1.png"));
         }catch (IOException ex){ex.printStackTrace();}
         stop.setEnabled(false);
+
+        infographics.setEditable(false);
         add(mainPanel);
         setVisible(true);
     }
 
 
-    public void startSimulation(){
+    public void startSimulation(String msg){
         startPause.setEnabled(false);
         stop.setEnabled(true);
+        infographics.setText(msg);
         repaint();
     }
 
     public void stopSimulation(){
         startPause.setEnabled(true);
         stop.setEnabled(false);
+        infographics.setText("");
         repaint();
     }
 
