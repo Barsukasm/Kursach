@@ -45,6 +45,8 @@ public class Wolf extends LiveBeing {
     @Override
     public void move() {
         hp-=0.1;
+        //FaunaCollection.getInstance().island[getX()][getY()]-=1;//Убираем волка со старых координат перед перемещением
+        boolean stepIsDone = false;
         Bunny b=null;
         scycle:
         for(int i=getX()-1; i<=getX()+1;i++){
@@ -55,11 +57,31 @@ public class Wolf extends LiveBeing {
                    hp++;
                    setX(b.getX());
                    setY(b.getY());
+                   stepIsDone=true;
                    break scycle;
                }
             }
         }
-        if (b==null){
+        if (!stepIsDone&&isMale){
+            fem:
+            for(int i=getX()-1; i<=getX()+1;i++){
+                for(int j=getY()-1;j<=getY()+1;j++){
+                    Wolf femW=FaunaCollection.getInstance().findFem(i,j);
+                    if(femW!=null){
+                        setX(femW.getX());
+                        setY(femW.getY());
+                        stepIsDone=true;
+                        boolean isMale = true;
+                        if (Math.random()>0.5) isMale = false;
+                        Wolf wolfy = new Wolf(getX(),getY(), isMale);
+                        //FaunaCollection.getInstance().island[getX()][getY()]+=1;
+                        FaunaCollection.getInstance().fauna.add(wolfy);
+                        break fem;
+                    }
+                }
+            }
+        }
+        if (!stepIsDone){
             int r = (int)(Math.random()*9);
             switch (r){
                 case 0:
@@ -118,11 +140,14 @@ public class Wolf extends LiveBeing {
                     break;
             }
         }
+        //FaunaCollection.getInstance().island[getX()][getY()]+=1;//Добавляем на новую клетку
     }
 
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(img,FaunaCollection.getInstance().map[getX()][getY()].x,FaunaCollection.getInstance().map[getX()][getY()].y,null);
+        if (img!=null) {
+            g.drawImage(img,FaunaCollection.getInstance().map[this.getX()][this.getY()].x,FaunaCollection.getInstance().map[this.getX()][this.getY()].y,img.getWidth(null),img.getHeight(null),null);
+        }
     }
 }

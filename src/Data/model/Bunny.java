@@ -99,6 +99,8 @@ public class Bunny extends LiveBeing {
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(img,FaunaCollection.getInstance().map[getX()][getY()].x,FaunaCollection.getInstance().map[getX()][getY()].y,null);
+        if (img!=null) {
+            g.drawImage(img,FaunaCollection.getInstance().map[this.getX()][this.getY()].x,FaunaCollection.getInstance().map[this.getX()][this.getY()].y,img.getWidth(null),img.getHeight(null),null);
+        }
     }
 }
