@@ -20,11 +20,13 @@ public class IslandView extends JFrame {
     JPanel visualPanel;
     JPanel mainPanel;
     public JTextArea infographics;
+    public JButton pauseButton;
+    Window[] window = getWindows();
     Image img;
 
     public IslandView(String s){
         super(s);
-        setBounds(0,0,1000,900);
+        setBounds(150,150,1000,650);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         try{
@@ -41,12 +43,16 @@ public class IslandView extends JFrame {
     public void startSimulation(String msg){
         startPause.setEnabled(false);
         stop.setEnabled(true);
+        pauseButton.setEnabled(true);
+        pauseButton.setText("Pause");
         infographics.setText(msg);
         repaint();
     }
 
     public void stopSimulation(){
         startPause.setEnabled(true);
+        pauseButton.setEnabled(false);
+        pauseButton.setText("Pause");
         stop.setEnabled(false);
         infographics.setText("");
         repaint();
@@ -58,8 +64,18 @@ public class IslandView extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.drawImage(img,0,0,visualPanel.getWidth(),visualPanel.getHeight(),null);
-                for (LiveBeing lb: FaunaCollection.getInstance().fauna){
+                /*for (LiveBeing lb: FaunaCollection.getInstance().fauna){
                     lb.paint(g);
+                }*/
+                for (int i=0;i<20;i++){
+                    for(int j=0;j<20;j++){
+                        if(FaunaCollection.getInstance().fc[i][j].numberOfBunnies>0){
+                            Bunny.getInstance(i,j).paint(g);
+                        }
+                        if(FaunaCollection.getInstance().fc[i][j].numberOfWolfsM>0||FaunaCollection.getInstance().fc[i][j].numberOfWoflsF>0){
+                            Wolf.getInstance(i,j).paint(g);
+                        }
+                    }
                 }
             }
         };

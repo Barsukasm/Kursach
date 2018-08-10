@@ -34,66 +34,72 @@ public class Bunny extends LiveBeing {
 
     @Override
     public void move() {
-        int r = (int)(Math.random()*9);
-        if(Math.random()<0.2){
-            Bunny bunny = new Bunny(getX(),getY());
-            FaunaCollection.getInstance().addNewborns.add(bunny);
-        }
-        switch (r){
-            case 0:
-                if(getX()>0){
-                    setX(getX()-1);
-                }
-                if(getY()>0){
-                    setY(getY()-1);
-                }
-                break;
-            case 1:
-                if(getX()>0){
-                    setX(getX()-1);
-                }
-                break;
-            case 2:
-                if(getX()>0){
-                    setX(getX()-1);
-                }
-                if(getY()<19){
-                    setY(getY()+1);
-                }
-                break;
-            case 3:
-                if(getY()>0) {
-                    setY(getY() - 1);
-                }
-                break;
-            case 4:
-                break;
-            case 5:
-                if(getY()<19){
-                    setY(getY()+1);
-                }
-                break;
-            case 6:
-                if(getX()<19){
-                    setX(getX()+1);
-                }
-                if(getY()>0) {
-                    setY(getY() - 1);
-                }
-                break;
-            case 7:
-                if(getX()<19){
-                    setX(getX()+1);
-                }
-                break;
-            case 8:
-                if(getX()<19){
-                    setX(getX()+1);
-                }
-                if(getY()<19){
-                    setY(getY()+1);
-                }
-                break;
+        if(!isEaten){//Если кролика еще не съели, то он может двигаться
+            int r = (int)(Math.random()*9);
+            if(Math.random()<0.2&&FaunaCollection.getInstance().fc[getX()][getY()].numberOfBunnies<3){//Установим дополнительное ограничение по количеству кроликов в одной клетке
+                Bunny bunny = new Bunny(getX(),getY());
+                FaunaCollection.getInstance().addNewborns.add(bunny);
+                FaunaCollection.getInstance().fc[bunny.getX()][bunny.getY()].numberOfBunnies++;
+            }
+
+            FaunaCollection.getInstance().fc[getX()][getY()].numberOfBunnies--;//Убираем кролика из квадрата перед тем, как сделать шаг
+            switch (r){
+                case 0:
+                    if(getX()>0){
+                        setX(getX()-1);
+                    }
+                    if(getY()>0){
+                        setY(getY()-1);
+                    }
+                    break;
+                case 1:
+                    if(getX()>0){
+                        setX(getX()-1);
+                    }
+                    break;
+                case 2:
+                    if(getX()>0){
+                        setX(getX()-1);
+                    }
+                    if(getY()<19){
+                        setY(getY()+1);
+                    }
+                    break;
+                case 3:
+                    if(getY()>0) {
+                        setY(getY() - 1);
+                    }
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    if(getY()<19){
+                        setY(getY()+1);
+                    }
+                    break;
+                case 6:
+                    if(getX()<19){
+                        setX(getX()+1);
+                    }
+                    if(getY()>0) {
+                        setY(getY() - 1);
+                    }
+                    break;
+                case 7:
+                    if(getX()<19){
+                        setX(getX()+1);
+                    }
+                    break;
+                case 8:
+                    if(getX()<19){
+                        setX(getX()+1);
+                    }
+                    if(getY()<19){
+                        setY(getY()+1);
+                    }
+                    break;
+            }
+            FaunaCollection.getInstance().fc[getX()][getY()].numberOfBunnies++;//Добавляем кролика на новые координаты
         }
     }
 
@@ -102,5 +108,10 @@ public class Bunny extends LiveBeing {
         if (img!=null) {
             g.drawImage(img,FaunaCollection.getInstance().map[this.getX()][this.getY()].x,FaunaCollection.getInstance().map[this.getX()][this.getY()].y,img.getWidth(null),img.getHeight(null),null);
         }
+    }
+
+    public static Bunny getInstance(int x, int y){
+        Bunny inst=new Bunny(x,y);
+        return inst;
     }
 }

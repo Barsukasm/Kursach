@@ -1,5 +1,7 @@
 package Data.ai;
 
+import MVC.IslandModel;
+
 public abstract class CommonAI extends Thread {
 
     public boolean running;
@@ -15,7 +17,7 @@ public abstract class CommonAI extends Thread {
     public void run() {
         while (running){
            try {
-               Thread.sleep(1000);
+               Thread.sleep(IslandModel.period);
            }catch (InterruptedException ex){
                ex.printStackTrace();
            }
