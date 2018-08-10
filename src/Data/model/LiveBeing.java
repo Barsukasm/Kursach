@@ -35,5 +35,5 @@ public abstract class LiveBeing implements Serializable {
 
     public abstract void move();
 
-    public abstract void paint(Graphics g);
+    public abstract void paint(Graphics g, ClassLoader classLoader);
 }

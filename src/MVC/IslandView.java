@@ -14,6 +14,7 @@ import java.io.IOException;
 
 public class IslandView extends JFrame {
 
+    ClassLoader classLoader = getClass().getClassLoader();
     JMenuBar jbar=new JMenuBar();
     JMenu menu = new JMenu("File");
     JMenuItem saveItem = new JMenuItem("Save");
@@ -42,8 +43,10 @@ public class IslandView extends JFrame {
         setJMenuBar(jbar);
 
         try{
-            img = ImageIO.read(new File("images/grassTile1.png"));
-        }catch (IOException ex){ex.printStackTrace();}
+            img = ImageIO.read(classLoader.getResourceAsStream("images/grassTile1.png"));
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
         stop.setEnabled(false);
 
         infographics.setEditable(false);
@@ -82,10 +85,10 @@ public class IslandView extends JFrame {
                 for (int i=0;i<20;i++){
                     for(int j=0;j<20;j++){
                         if(FaunaCollection.getInstance().fc[i][j].numberOfBunnies>0){
-                            Bunny.getInstance(i,j).paint(g);
+                            Bunny.getInstance(i,j).paint(g, classLoader);
                         }
                         if(FaunaCollection.getInstance().fc[i][j].numberOfWolfsM>0||FaunaCollection.getInstance().fc[i][j].numberOfWoflsF>0){
-                            Wolf.getInstance(i,j).paint(g);
+                            Wolf.getInstance(i,j).paint(g,classLoader);
                         }
                     }
                 }

@@ -83,6 +83,7 @@ public class IslandController {
         private ActionListener saveItemListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                model.pause();
                 JFileChooser fileSave = new JFileChooser();
                 int returnVal = fileSave.showSaveDialog(null);
                 if(returnVal == JFileChooser.APPROVE_OPTION) {
@@ -93,6 +94,7 @@ public class IslandController {
                         e1.printStackTrace();
                     }
                 }
+                model.resume();
             }
         };
 

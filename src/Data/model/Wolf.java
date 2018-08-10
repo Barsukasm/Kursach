@@ -7,15 +7,15 @@ import java.io.IOException;
 
 public class Wolf extends LiveBeing {
 
-    private static Image img;
+    //private static Image img;
 
-    static {
+    /*static {
         try{
         img = ImageIO.read(new File("images/Wolf2.png"));
         }catch (IOException ex){
             ex.printStackTrace();
         }
-    }
+    }*/
 
     private double hp;
     private boolean isMale;
@@ -163,7 +163,13 @@ public class Wolf extends LiveBeing {
 
 
     @Override
-    public void paint(Graphics g) {
+    public void paint(Graphics g, ClassLoader classLoader) {
+        Image img=null;
+        try{
+            img = ImageIO.read(classLoader.getResourceAsStream("images/Wolf2.png"));
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
         if (img!=null) {
             g.drawImage(img,FaunaCollection.getInstance().map[this.getX()][this.getY()].x,FaunaCollection.getInstance().map[this.getX()][this.getY()].y,img.getWidth(null),img.getHeight(null),null);
         }

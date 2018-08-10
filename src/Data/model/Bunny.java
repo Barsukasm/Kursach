@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Bunny extends LiveBeing {
 
-    private static Image img;
+    /*private static Image img;
 
     static {
         try{
@@ -15,7 +15,7 @@ public class Bunny extends LiveBeing {
         }catch (IOException ex){
             ex.printStackTrace();
         }
-    }
+    }*/
 
     private boolean isEaten;
 
@@ -104,7 +104,13 @@ public class Bunny extends LiveBeing {
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void paint(Graphics g,ClassLoader classLoader) {
+        Image img=null;
+        try{
+            img = ImageIO.read(classLoader.getResourceAsStream("images/rabbit1.png"));
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
         if (img!=null) {
             g.drawImage(img,FaunaCollection.getInstance().map[this.getX()][this.getY()].x,FaunaCollection.getInstance().map[this.getX()][this.getY()].y,img.getWidth(null),img.getHeight(null),null);
         }
