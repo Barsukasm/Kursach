@@ -14,6 +14,11 @@ import java.io.IOException;
 
 public class IslandView extends JFrame {
 
+    JMenuBar jbar=new JMenuBar();
+    JMenu menu = new JMenu("File");
+    JMenuItem saveItem = new JMenuItem("Save");
+    JMenuItem loadItem = new JMenuItem("Load");
+    JMenuItem exitItem = new JMenuItem("Exit");
     JButton startPause;
     JButton stop;
     JPanel menuPanel;
@@ -26,8 +31,15 @@ public class IslandView extends JFrame {
 
     public IslandView(String s){
         super(s);
-        setBounds(150,150,1000,650);
+        setBounds(150,150,1000,700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        menu.add(saveItem);
+        menu.add(loadItem);
+        menu.addSeparator();
+        menu.add(exitItem);
+        jbar.add(menu);
+        setJMenuBar(jbar);
 
         try{
             img = ImageIO.read(new File("images/grassTile1.png"));

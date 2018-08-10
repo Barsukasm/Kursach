@@ -1,8 +1,9 @@
 package Data.model;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class LiveBeing {
+public abstract class LiveBeing implements Serializable {
     private int x,y;
     private boolean isAlive;
     public LiveBeing(int x, int y){
