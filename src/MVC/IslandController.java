@@ -7,10 +7,7 @@ import Data.model.Wolf;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.*;
 import java.util.Vector;
 
@@ -35,6 +32,11 @@ public class IslandController {
             view.saveItem.addActionListener(saveItemListener);
             view.loadItem.addActionListener(loadItemListener);
             view.exitItem.addActionListener(exitItemListener);
+            view.initFemales.addKeyListener(onlyDigit);
+            view.initMales.addKeyListener(onlyDigit);
+            view.initRabbits.addKeyListener(onlyDigit);
+            view.initPeriod.addKeyListener(onlyDigit);
+            view.initPeriod.addActionListener(speedChange);
         }
 
         private ActionListener startButtonListener = new ActionListener(){
@@ -142,6 +144,28 @@ public class IslandController {
                 if(model.bunnyAI!=null) model.bunnyAI.running=false;
                 view.window[0].setVisible(false);
                 System.exit(0);
+            }
+        };
+
+        private KeyAdapter onlyDigit = new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                char a = e.getKeyChar();
+                if(!Character.isDigit(a)){
+                    e.consume();
+                }
+            }
+        };
+
+        private ActionListener speedChange = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int newValue = Integer.parseInt(view.initPeriod.getText());
+                if(newValue>0) {
+                    model.setPeriod(newValue);
+                    model.updateSpeed();
+                }
             }
         };
 }

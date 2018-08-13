@@ -27,6 +27,10 @@ public class IslandView extends JFrame {
     JPanel mainPanel;
     public JTextArea infographics;
     public JButton pauseButton;
+    public JTextField initRabbits;
+    public JTextField initMales;
+    public JTextField initFemales;
+    public JTextField initPeriod;
     Window[] window = getWindows();
     Image img;
 
@@ -34,6 +38,11 @@ public class IslandView extends JFrame {
         super(s);
         setBounds(150,150,1000,700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        initRabbits.setText("10");
+        initMales.setText("5");
+        initFemales.setText("5");
+        initPeriod.setText("3000");
 
         menu.add(saveItem);
         menu.add(loadItem);

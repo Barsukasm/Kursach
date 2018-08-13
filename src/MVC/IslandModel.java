@@ -20,8 +20,6 @@ public class IslandModel {
     public BunnyAI bunnyAI;
     public WolfsAI wolfsAI;
     IslandView view;
-    private static int nWolfs=15;
-    private static int nBunnies=10;
 
     public IslandModel(IslandView view){
         this.view = view;
@@ -36,18 +34,18 @@ public class IslandModel {
     }
 
     private void spawnCreatures(){
-            int numberOfWolfs=(int)(Math.random()*nWolfs+1);
-            int numberOfBunnies=(int)(Math.random()*nBunnies+1);
-            for (int i=0;i<numberOfWolfs;i++){
-                boolean isMale=true;
-                if(Math.random()>0.5) isMale=false;
-                Wolf wolfy = new Wolf((int)(Math.random()*20),(int)(Math.random()*20),isMale);
+            int numberOfWolfsM=Integer.parseInt(view.initMales.getText());
+            int numberOfWolfsF=Integer.parseInt(view.initFemales.getText());
+            int numberOfBunnies=Integer.parseInt(view.initRabbits.getText());
+            for (int i=0;i<numberOfWolfsM;i++){
+                Wolf wolfy = new Wolf((int)(Math.random()*20),(int)(Math.random()*20),true);
                 FaunaCollection.getInstance().fauna.add(wolfy);
-                if (wolfy.isMale()) {
-                    FaunaCollection.getInstance().fc[wolfy.getX()][wolfy.getY()].numberOfWolfsM++;
-                }else {
-                    FaunaCollection.getInstance().fc[wolfy.getX()][wolfy.getY()].numberOfWoflsF++;
-                }
+                FaunaCollection.getInstance().fc[wolfy.getX()][wolfy.getY()].numberOfWolfsM++;
+            }
+            for (int i=0;i<numberOfWolfsF;i++){
+                Wolf wolfy = new Wolf((int)(Math.random()*20),(int)(Math.random()*20),false);
+                FaunaCollection.getInstance().fauna.add(wolfy);
+                FaunaCollection.getInstance().fc[wolfy.getX()][wolfy.getY()].numberOfWoflsF++;
             }
             for (int i=0;i<numberOfBunnies;i++){
                 Bunny bunny = new Bunny((int)(Math.random()*20),(int)(Math.random()*20));
@@ -56,11 +54,39 @@ public class IslandModel {
             }
     }
 
+    public static void setPeriod(int period) {
+        IslandModel.period = period;
+    }
+
+    public void updateSpeed(){
+        if(timer!=null) {
+            timer.cancel();
+            timer=null;
+        }
+        wolfsAI.running=false;
+        bunnyAI.running=false;
+
+        wolfsAI=new WolfsAI();
+        wolfsAI.start();
+        bunnyAI = new BunnyAI();
+        bunnyAI.start();
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                time++;
+                update();
+                view.startSimulation(formMessage());
+            }
+        },0,period);
+    }
+
     void startSimulation(){
         isRunning=true;
         isPaused=false;
         FaunaCollection.getInstance().addNewborns.clear();
         FaunaCollection.getInstance().fauna.clear();
+        period = Integer.parseInt(view.initPeriod.getText());
         spawnCreatures();
         wolfsAI=new WolfsAI();
         wolfsAI.start();
