@@ -111,8 +111,8 @@ public class IslandModel {
             timer.cancel();
             timer=null;
         }
-        wolfsAI.running=false;
-        bunnyAI.running=false;
+        if(wolfsAI!=null) wolfsAI.running=false;
+        if(bunnyAI!=null) bunnyAI.running=false;
         time=0;
         FaunaCollection.getInstance().addNewborns.clear();
         FaunaCollection.getInstance().fauna.clear();
@@ -148,10 +148,12 @@ public class IslandModel {
 
     public void pause(){
         isPaused=true;
-        timer.cancel();
-        timer=null;
-        wolfsAI.running=false;
-        bunnyAI.running=false;
+        if(timer!=null) {
+            timer.cancel();
+            timer=null;
+        }
+        if(wolfsAI!=null) wolfsAI.running=false;
+        if(bunnyAI!=null) bunnyAI.running=false;
     }
 
     public void resume(){

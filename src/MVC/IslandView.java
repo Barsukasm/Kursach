@@ -3,13 +3,11 @@ package MVC;
 
 import Data.model.Bunny;
 import Data.model.FaunaCollection;
-import Data.model.LiveBeing;
 import Data.model.Wolf;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 public class IslandView extends JFrame {

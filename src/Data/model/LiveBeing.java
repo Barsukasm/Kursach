@@ -5,11 +5,9 @@ import java.io.Serializable;
 
 public abstract class LiveBeing implements Serializable {
     private int x,y;
-    private boolean isAlive;
     public LiveBeing(int x, int y){
         this.x=x;
         this.y=y;
-        isAlive = true;
     }
 
     public LiveBeing(){

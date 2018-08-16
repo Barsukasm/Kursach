@@ -85,18 +85,20 @@ public class IslandController {
         private ActionListener saveItemListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                model.pause();
-                JFileChooser fileSave = new JFileChooser();
-                int returnVal = fileSave.showSaveDialog(null);
-                if(returnVal == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileSave.getSelectedFile().getPath()+".txt"));
-                        oos.writeObject(FaunaCollection.getInstance().fauna); // Сериализация
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
+                if(model.isRunning) {
+                    model.pause();
+                    JFileChooser fileSave = new JFileChooser();
+                    int returnVal = fileSave.showSaveDialog(null);
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        try {
+                            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileSave.getSelectedFile().getPath() + ".txt"));
+                            oos.writeObject(FaunaCollection.getInstance().fauna); // Сериализация
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
                     }
+                    model.resume();
                 }
-                model.resume();
             }
         };
 
@@ -132,8 +134,10 @@ public class IslandController {
                         e1.printStackTrace();
                     }
                 }
-                model.isRunning=true;
-                model.resume();
+                if(!FaunaCollection.getInstance().fauna.isEmpty()){
+                    model.isRunning=true;
+                    model.resume();
+                }
             }
         };
 
